@@ -10,9 +10,11 @@ public class Minefield {
     private int width;
 
     public Minefield(int number_mines, int new_height, int new_width) {
-        this.num_mines = number_mines;
-        this.height = new_height;
-        this.width = new_width;
+        num_mines = number_mines;
+        height = new_height;
+        width = new_width;
+
+        field = new ArrayList<>();
 
         for(int i = 0; i < height; i++) {
             ArrayList<FieldSpace> temp = new ArrayList<>();
@@ -73,8 +75,9 @@ public class Minefield {
             return false;
         }
         else {
+
             field.get(y).get(x).setCleared(true);
-            //Here is where we'll do flood fill if the space has 0 warnings
+
             return true;
         }
     }
