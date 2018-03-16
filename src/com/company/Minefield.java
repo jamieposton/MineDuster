@@ -46,19 +46,19 @@ public class Minefield {
     private void AddWarnings(int x, int y) {
         for(int i = -1; i < 2; i++) {
             for(int j = -1; j < 2; j++) {
-                if(isInBounds(x + i, y + j)) {
+                if(IsInBounds(x + i, y + j)) {
                     field.get(y+j).get(x+i).incrementWarnings();
                 }
             }
         }
     }
 
-    private boolean isInBounds(int x, int y) {
+    private boolean IsInBounds(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
     public boolean AddFlag(int x, int y) {
-        if( !isInBounds(x, y) ) {
+        if( !IsInBounds(x, y) ) {
             return false;
         }
         else {
@@ -69,9 +69,14 @@ public class Minefield {
     }
 
     public boolean ClearSpace(int x, int y) {
-        //check if space is already clear
-            //if so, return
-        return true;
+        if(field.get(y).get(x).isMine()) {
+            return false;
+        }
+        else {
+            field.get(y).get(x).setCleared(true);
+            //Here is where we'll do flood fill if the space has 0 warnings
+            return true;
+        }
     }
 
 
