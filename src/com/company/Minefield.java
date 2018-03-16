@@ -44,9 +44,13 @@ public class Minefield {
     }
 
     private void AddWarnings(int x, int y) {
-        //for every adjacent space
-            //if it's not outside the bounds
-                //increment the warnings
+        for(int i = -1; i < 2; i++) {
+            for(int j = -1; j < 2; j++) {
+                if(isInBounds(x + i, y + j)) {
+                    field.get(y+j).get(x+i).incrementWarnings();
+                }
+            }
+        }
     }
 
     private boolean isInBounds(int x, int y) {
