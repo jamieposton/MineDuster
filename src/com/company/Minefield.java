@@ -14,9 +14,9 @@ public class Minefield {
         this.height = new_height;
         this.width = new_width;
 
-        for(int i = 0; i < this.height; i++) {
+        for(int i = 0; i < height; i++) {
             ArrayList<FieldSpace> temp = new ArrayList<>();
-            for(int j = 0; j < this.width; j++) {
+            for(int j = 0; j < width; j++) {
                 FieldSpace tempSpace = new FieldSpace(false, false, false, 0);
                 temp.add(tempSpace);
             }
@@ -30,13 +30,13 @@ public class Minefield {
         int mines = 0;
         Random rand = new Random();
         //until we've run out of mines
-        while( mines < this.num_mines ) {
+        while( mines < num_mines ) {
             //generate random space
             int x = rand.nextInt(width);
             int y = rand.nextInt(height);
             //Check if space is not already a mine
-            if(!this.field.get(x).get(y).isMine()) {
-                this.field.get(x).get(y).setMine(true);
+            if(!field.get(y).get(x).isMine()) {
+                field.get(y).get(x).setMine(true);
                 AddWarnings(x,y);
                 mines++;
             }
@@ -49,14 +49,19 @@ public class Minefield {
                 //increment the warnings
     }
 
+    private boolean isInBounds(int x, int y) {
+        return x >= 0 && x < width && y >= 0 && y < height;
+    }
+
     public boolean AddFlag(int x, int y) {
-        //check if x and y are in the right bounds
-            //if not return false
-        //check if a flag is already there
-            //if yes return false
-        //place flag
-        //return true
-        return true;
+        if( !isInBounds(x, y) ) {
+            return false;
+        }
+        else {
+            boolean currentFlag = field.get(y).get(x).isFlag();
+            field.get(x).get(y).setFlag(!currentFlag);
+            return true;
+        }
     }
 
     public boolean ClearSpace(int x, int y) {
