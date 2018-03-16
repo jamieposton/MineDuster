@@ -75,6 +75,9 @@ public class Minefield {
     }
 
     public boolean ClearSpace(int x, int y) {
+        if(!IsInBounds(x, y)) {
+            return true;
+        }
         if(field.get(y).get(x).isMine()) {
             return false;
         }
@@ -85,11 +88,14 @@ public class Minefield {
             while(!ToCheck.empty()) {
                 currentPoint = ToCheck.pop();
                 field.get(currentPoint.y).get(currentPoint.x).setCleared(true);
-                if(field.get(currentPoint.y).get(currentPoint.x).getWarnings() <= 0) {
-                    for(int i = -1; i < 2; i++) {
-                        for(int j = -1; j < 2; j++) {
-                            if(!field.get(currentPoint.y+j).get(currentPoint.x+i).isCleared()) {
-                                Point addedPoint = new Point(currentPoint.x+1, currentPoint.y+j);
+
+                if (field.get(currentPoint.y).get(currentPoint.x).getWarnings() <= 0) {
+
+                    for (int i = -1; i < 2; i++) {
+                        for (int j = -1; j < 2; j++) {
+
+                            if (IsInBounds(currentPoint.x+i, currentPoint.y+j) && !field.get(currentPoint.y + j).get(currentPoint.x + i).isCleared()) {
+                                Point addedPoint = new Point(currentPoint.x + i, currentPoint.y + j);
                                 ToCheck.push(addedPoint);
                             }
                         }
@@ -121,7 +127,7 @@ public class Minefield {
                 if(tempSpace.isMine()) {
                     finalString += mine;
                 }
-                System.out.print(finalString + " ");
+                System.out.print(finalString + "\t");
             }
             System.out.println("");
         }
