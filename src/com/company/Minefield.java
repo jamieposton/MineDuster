@@ -1,7 +1,11 @@
 package com.company;
 
+import javafx.util.Pair;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Stack;
 
 public class Minefield {
     private ArrayList<ArrayList<FieldSpace>> field;
@@ -65,7 +69,7 @@ public class Minefield {
         }
         else {
             boolean currentFlag = field.get(y).get(x).isFlag();
-            field.get(x).get(y).setFlag(!currentFlag);
+            field.get(y).get(x).setFlag(!currentFlag);
             return true;
         }
     }
@@ -75,8 +79,23 @@ public class Minefield {
             return false;
         }
         else {
-
-            field.get(y).get(x).setCleared(true);
+            Point currentPoint = new Point(x, y);
+            Stack<Point> ToCheck = new Stack<>();
+            ToCheck.push(currentPoint);
+            while(!ToCheck.empty()) {
+                currentPoint = ToCheck.pop();
+                field.get(currentPoint.y).get(currentPoint.x).setCleared(true);
+                if(field.get(currentPoint.y).get(currentPoint.x).getWarnings() <= 0) {
+                    for(int i = -1; i < 2; i++) {
+                        for(int j = -1; j < 2; j++) {
+                            if(!field.get(currentPoint.y+j).get(currentPoint.x+i).isCleared()) {
+                                Point addedPoint = new Point(currentPoint.x+1, currentPoint.y+j);
+                                ToCheck.push(addedPoint);
+                            }
+                        }
+                    }
+                }
+            }
 
             return true;
         }
