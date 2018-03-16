@@ -1,7 +1,5 @@
 package com.company;
 
-import javafx.util.Pair;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -133,5 +131,19 @@ public class Minefield {
         }
     }
 
+    public ArrayList<ArrayList<FieldSpace>> getField() {
+        return field;
+    }
 
+    public int getNum_mines() {
+        return num_mines;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
 }
