@@ -101,5 +101,31 @@ public class Minefield {
         }
     }
 
+    public void PrintField()
+    {
+        char flag = 'F';
+        char mine = 'M';
+        char cleared = 'C';
+
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < width; j++) {
+                FieldSpace tempSpace = field.get(i).get(j);
+                int warnings = tempSpace.getWarnings();
+                String finalString = Integer.toString(warnings);
+                if(tempSpace.isCleared()) {
+                    finalString += cleared;
+                }
+                if(tempSpace.isFlag()) {
+                    finalString += flag;
+                }
+                if(tempSpace.isMine()) {
+                    finalString += mine;
+                }
+                System.out.print(finalString + " ");
+            }
+            System.out.println("");
+        }
+    }
+
 
 }
