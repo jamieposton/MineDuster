@@ -1,18 +1,28 @@
 package com.company;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+
 
 public class MineFieldCanvas extends JPanel implements MouseListener{
     private int numColumns, numRows;
     private int cellSizeX, cellSizeY;
+    private Image flagImage;
     public Minefield minefield;
     MineFieldCanvas(){
         super(true);
         this.addMouseListener(this);
+        try {
+            flagImage = ImageIO.read(new FileInputStream("res/flag.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setParams(Minefield newMinefield){
@@ -75,9 +85,12 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
             }
         }else if(space.isFlag()){
             // Draw Flag
-            g.setColor(Color.BLACK);
-            drawCenteredString(g, "F", rect, g.getFont());
+            drawImageRect(g, flagImage, rect, Color.GRAY);
         }
+    }
+
+    private void drawImageRect(Graphics g, Image img, Rectangle rect, Color bgColor){
+        g.drawImage(img, rect.x, rect.y, rect.width, rect.height, bgColor, null);
     }
 
     private Color getNumberColor(int n){
