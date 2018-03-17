@@ -1,7 +1,5 @@
 package com.company;
 
-import javafx.util.Pair;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,12 +7,12 @@ import java.util.Stack;
 
 public class Minefield {
     private ArrayList<ArrayList<FieldSpace>> field;
-    private int num_mines;
+    private int numMines;
     private int height;
     private int width;
 
     public Minefield(int number_mines, int new_height, int new_width) {
-        num_mines = number_mines;
+        numMines = number_mines;
         height = new_height;
         width = new_width;
 
@@ -36,7 +34,7 @@ public class Minefield {
         int mines = 0;
         Random rand = new Random();
         //until we've run out of mines
-        while( mines < num_mines ) {
+        while( mines < numMines) {
             //generate random space
             int x = rand.nextInt(width);
             int y = rand.nextInt(height);
@@ -133,5 +131,19 @@ public class Minefield {
         }
     }
 
+    public ArrayList<ArrayList<FieldSpace>> getField() {
+        return field;
+    }
 
+    public int getNumMines() {
+        return numMines;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
 }
