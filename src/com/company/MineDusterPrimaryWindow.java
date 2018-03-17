@@ -10,30 +10,35 @@ import java.util.Properties;
 
 public class MineDusterPrimaryWindow {
 
+    private Dimension windowSize;
     private JPanel PrimaryPanel;
-    private JPanel GamePanel;
     private JPanel ButtonPanel;
     private JLabel TimerLabel;
     private JLabel MineCountLabel;
     private JButton ResetButton;
     private JButton PauseButton;
+    private MineFieldCanvas gameCanvas;
     private Minefield minefield;
     private Properties properties;
-    private Dimension fieldSize;
 
     private boolean gameStarted;
     private boolean gamePaused;
 
-    public MineDusterPrimaryWindow(int num_mines, int field_height, int field_width) {
+    public MineDusterPrimaryWindow(int num_mines, int field_height, int field_width, Dimension windowSize) {
+        this.windowSize = windowSize;
         minefield = new Minefield(num_mines, field_height, field_width);
+        gameCanvas.setParams(field_height, field_width);
+        gameCanvas.setSize(this.windowSize);
+
+
         gamePaused = true;
         gameStarted = false;
-
 
         properties = new Properties();
         try {
             properties.load(new FileInputStream("res/strings.properties"));
         } catch (IOException e) {
+            //Properties failed to load.
         }
 
         setActionListeners();
@@ -71,4 +76,7 @@ public class MineDusterPrimaryWindow {
         return PrimaryPanel;
     }
 
+    private void createUIComponents() {
+        gameCanvas = new MineFieldCanvas();
+    }
 }
