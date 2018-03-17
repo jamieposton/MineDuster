@@ -146,4 +146,8 @@ public class Minefield {
     public int getWidth() {
         return width;
     }
+
+    public void reset() {
+        //TODO: implement
+    }
 }
