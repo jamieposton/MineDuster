@@ -27,9 +27,8 @@ public class MineDusterPrimaryWindow {
     public MineDusterPrimaryWindow(int num_mines, int field_height, int field_width, Dimension windowSize) {
         this.windowSize = windowSize;
         minefield = new Minefield(num_mines, field_height, field_width);
-        gameCanvas.setParams(field_height, field_width);
+        gameCanvas.setParams(minefield);
         gameCanvas.setSize(this.windowSize);
-
 
         gamePaused = true;
         gameStarted = false;

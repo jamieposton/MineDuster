@@ -4,18 +4,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class MineFieldCanvas extends JPanel implements MouseListener{
     private int numColumns, numRows;
     private int cellSizeX, cellSizeY;
+    public Minefield minefield;
     MineFieldCanvas(){
         super(true);
         this.addMouseListener(this);
     }
 
-    public void setParams(int numColumns, int numRows){
-        this.numColumns = numColumns;
-        this.numRows = numRows;
+    public void setParams(Minefield newMinefield){
+        this.minefield = newMinefield;
+        this.numColumns = minefield.getWidth();
+        this.numRows = minefield.getHeight();
         cellSizeY = getHeight()/numRows;
         cellSizeX = getHeight()/numColumns;
     }
@@ -23,18 +26,27 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
 
     public void paint(Graphics g){
         g.clearRect(0,0, getHeight(), getWidth());
+        g.setColor(Color.GRAY);
+        g.fillRect(0, 0, getHeight(), getWidth());
         cellSizeY = getHeight()/numRows;
         cellSizeX = getHeight()/numColumns;
         drawGrid(g);
-        for(int row = 0; row < numRows; row++){
-            for(int col=0; col < numColumns; col++){
-                drawCell(g, row, col);
+        ArrayList<ArrayList<FieldSpace>> field = minefield.getField();
+        ArrayList<FieldSpace> row;
+        FieldSpace space;
+        if(minefield != null) {
+            for (int rowNum = 0; rowNum < numRows; rowNum++) {
+                for (int colNum = 0; colNum < numColumns; colNum++) {
+                    row = field.get(rowNum);
+                    space = row.get(colNum);
+                    drawCell(g, space, colNum, rowNum);
+                }
             }
         }
     }
 
     private void drawGrid(Graphics g){
-        g.setColor(Color.DARK_GRAY);
+        g.setColor(Color.BLACK);
 
         //Draw Horizontal
         for(int y = 0; y<=getHeight(); y+=cellSizeY) {
@@ -47,13 +59,48 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
         }
     }
 
-    private void drawCell(Graphics g,int row, int col){
+    private void drawCell(Graphics g, FieldSpace space, int colNum, int rowNum){
         g.setFont(g.getFont().deriveFont(0.8f*cellSizeY));
-        g.setColor(Color.LIGHT_GRAY);
-        Rectangle rect = new Rectangle(col*cellSizeX + 1, row*cellSizeY + 1, cellSizeX - 1, cellSizeY - 1);
-        g.fillRect(rect.x, rect.y, rect.width, rect.height);
-        g.setColor(Color.RED);
-        drawCenteredString(g, "8", rect, g.getFont());
+
+
+        Rectangle rect = new Rectangle(colNum*cellSizeX + 1, rowNum*cellSizeY + 1, cellSizeX - 1, cellSizeY - 1);
+        if(space.isCleared()) {
+            int numWarnings = space.getWarnings();
+            g.setColor(Color.LIGHT_GRAY);
+            g.fillRect(rect.x, rect.y, rect.width, rect.height);
+            if(numWarnings != 0){
+                // Draw numbered cell
+                g.setColor(getNumberColor(numWarnings));
+                drawCenteredString(g, String.valueOf(numWarnings), rect, g.getFont());
+            }
+        }else if(space.isFlag()){
+            // Draw Flag
+            g.setColor(Color.BLACK);
+            drawCenteredString(g, "F", rect, g.getFont());
+        }
+    }
+
+    private Color getNumberColor(int n){
+        switch(n){
+            case 1:
+                return Color.BLUE;
+            case 2:
+                return Color.GREEN;
+            case 3:
+                return Color.RED;
+            case 4:
+                return Color.MAGENTA;
+            case 5:
+                return Color.PINK;
+            case 6:
+                return Color.yellow;
+            case 7:
+                return Color.cyan;
+            case 8:
+                return Color.BLACK;
+            default:
+                return Color.WHITE;
+        }
     }
 
     public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
@@ -71,8 +118,13 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int row = e.getY()/cellSizeY;
-        int col = e.getX()/cellSizeX;
+        int row = e.getY() / cellSizeY;
+        int col = e.getX() / cellSizeX;
+        if(e.getButton() == MouseEvent.BUTTON1) {
+            minefield.ClearSpace(col, row);
+        } else if (e.getButton() == MouseEvent.BUTTON3) {
+            minefield.AddFlag(col, row);
+        }
         repaint();
     }
 
