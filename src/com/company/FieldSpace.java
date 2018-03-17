@@ -7,7 +7,7 @@ public class FieldSpace {
     private boolean cleared;
     private int warnings;
 
-    public FieldSpace(boolean flag, boolean mine, boolean cleared, int warnings) {
+    FieldSpace(boolean flag, boolean mine, boolean cleared, int warnings) {
         this.flag = flag;
         this.mine = mine;
         this.cleared = cleared;
@@ -35,7 +35,9 @@ public class FieldSpace {
     }
 
     public void setCleared(boolean cleared) {
-        this.cleared = cleared;
+        if(!isFlag()) {
+            this.cleared = cleared;
+        }
     }
 
     public int getWarnings() {
