@@ -11,7 +11,7 @@ public class Minefield {
     private int height;
     private int width;
 
-    Minefield(int number_mines, int new_height, int new_width) {
+    Minefield(int number_mines, int new_height, int new_width, int initX, int initY) {
         numMines = number_mines;
         height = new_height;
         width = new_width;
@@ -27,6 +27,8 @@ public class Minefield {
             this.field.add(temp);
         }
 
+        field.get(initY).get(initX).setCleared(true);
+
         GenerateMines();
     }
 
@@ -39,7 +41,7 @@ public class Minefield {
             int x = rand.nextInt(width);
             int y = rand.nextInt(height);
             //Check if space is not already a mine
-            if(!field.get(y).get(x).isMine()) {
+            if(!field.get(y).get(x).isMine() && !field.get(y).get(x).isCleared()) {
                 field.get(y).get(x).setMine(true);
                 AddWarnings(x,y);
                 mines++;
@@ -105,7 +107,7 @@ public class Minefield {
         }
     }
 
-    public void Reset() {
+    public void Reset(int initX, int initY) {
         for( int i = 0; i < width; i++ ) {
             for( int j = 0; j < height; j++ ) {
                 field.get(j).get(i).setFlag(false);
@@ -114,6 +116,9 @@ public class Minefield {
                 field.get(j).get(i).setWarnings(0);
             }
         }
+
+        field.get(initY).get(initX).setCleared(true);
+
         GenerateMines();
     }
 
@@ -157,9 +162,5 @@ public class Minefield {
 
     public int getWidth() {
         return width;
-    }
-
-    public void reset() {
-        //TODO: implement
     }
 }

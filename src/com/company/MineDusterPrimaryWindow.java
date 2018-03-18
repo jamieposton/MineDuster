@@ -26,7 +26,9 @@ public class MineDusterPrimaryWindow {
 
     MineDusterPrimaryWindow(int num_mines, int field_height, int field_width, Dimension windowSize) {
         this.windowSize = windowSize;
-        minefield = new Minefield(num_mines, field_height, field_width);
+
+        //TODO: Wait to generate minefield until the first button is clicked.
+        minefield = new Minefield(num_mines, field_height, field_width, 0, 0);
         gameCanvas.setParams(minefield);
         gameCanvas.setSize(this.windowSize);
 
@@ -66,8 +68,11 @@ public class MineDusterPrimaryWindow {
         ResetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                //TODO: Wait to generate minefield until the first button is clicked.
+
                 // TODO: add confirmation
-                minefield.Reset();
+                minefield.Reset(0, 0);
             }
         });
     }
