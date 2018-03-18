@@ -11,7 +11,7 @@ public class Minefield {
     private int height;
     private int width;
 
-    public Minefield(int number_mines, int new_height, int new_width) {
+    Minefield(int number_mines, int new_height, int new_width) {
         numMines = number_mines;
         height = new_height;
         width = new_width;
@@ -103,6 +103,18 @@ public class Minefield {
 
             return true;
         }
+    }
+
+    public void Reset() {
+        for( int i = 0; i < width; i++ ) {
+            for( int j = 0; j < height; j++ ) {
+                field.get(j).get(i).setFlag(false);
+                field.get(j).get(i).setMine(false);
+                field.get(j).get(i).setCleared(false);
+                field.get(j).get(i).setWarnings(0);
+            }
+        }
+        GenerateMines();
     }
 
     public void PrintField()

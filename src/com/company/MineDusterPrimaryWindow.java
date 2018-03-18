@@ -24,7 +24,7 @@ public class MineDusterPrimaryWindow {
     private boolean gameStarted;
     private boolean gamePaused;
 
-    public MineDusterPrimaryWindow(int num_mines, int field_height, int field_width, Dimension windowSize) {
+    MineDusterPrimaryWindow(int num_mines, int field_height, int field_width, Dimension windowSize) {
         this.windowSize = windowSize;
         minefield = new Minefield(num_mines, field_height, field_width);
         gameCanvas.setParams(minefield);
@@ -67,7 +67,7 @@ public class MineDusterPrimaryWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: add confirmation
-                minefield.reset();
+                minefield.Reset();
             }
         });
     }

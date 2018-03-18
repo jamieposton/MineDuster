@@ -47,4 +47,8 @@ public class FieldSpace {
     public void incrementWarnings() {
         warnings++;
     }
+
+    public void setWarnings(int newWarnings) {
+        warnings = newWarnings;
+    }
 }
