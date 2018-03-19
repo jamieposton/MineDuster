@@ -85,12 +85,24 @@ public class MineDusterPrimaryWindow {
     }
 
     private void updateTimerLabel() {
-        String text = properties.getProperty("timerBaseLabel");
-
+        String base = properties.getProperty("timerBaseLabel");
+        String text = "";
+        if(minefield.gamePaused){
+            text = "PAUSED";
+        }else if(!minefield.gameStarted){
+            text = base + "--:--";
+        }else{
+            String timeString = "";
+            text = base + timeString;
+        }
+        TimerLabel.setText(text);
     }
 
     public void updateMineCountLabel(){
-        String text = properties.getProperty("minesBaseLabel");
+        String base = properties.getProperty("minesBaseLabel");
+        int numFlagged = minefield.getTotalFlags();
+        int numMines = minefield.getNumMines();
+        MineCountLabel.setText(base + numFlagged + "/" + numMines);
     }
 
     public JPanel getPrimaryPanel() {
