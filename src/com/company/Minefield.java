@@ -135,7 +135,7 @@ public class Minefield {
         gameState = isWon();
     }
 
-    public GAME_STATE isWon() {
+    private GAME_STATE isWon() {
         for( int i = 0; i < width; i++ ) {
             for( int j = 0; j < height; j++) {
                 if( !field.get(j).get(i).isCleared() && !field.get(j).get(i).isMine() ) {
