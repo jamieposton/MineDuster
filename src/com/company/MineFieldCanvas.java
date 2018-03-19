@@ -48,7 +48,7 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
         ArrayList<ArrayList<FieldSpace>> field = minefield.getField();
         ArrayList<FieldSpace> row;
         FieldSpace space;
-        System.out.println(minefield.gameState.toString());
+        
         if(minefield != null) {
             for (int rowNum = 0; rowNum < numRows; rowNum++) {
                 for (int colNum = 0; colNum < numColumns; colNum++) {
