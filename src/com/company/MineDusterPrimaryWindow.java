@@ -39,6 +39,14 @@ public class MineDusterPrimaryWindow {
 
         setActionListeners();
 
+        Timer timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateLabels();
+            }
+        });
+        timer.setRepeats(true);
+        timer.start();
     }
 
     private void setActionListeners(){
