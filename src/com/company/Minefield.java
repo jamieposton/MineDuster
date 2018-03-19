@@ -168,6 +168,10 @@ public class Minefield {
                 field.get(j).get(i).setWarnings(0);
             }
         }
+        totalTime = 0;
+        totalFlags = 0;
+        startTime = System.currentTimeMillis();
+
         gameState = GAME_STATE.GAME_ONGOING;
         gameStarted = false;
     }
