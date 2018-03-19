@@ -13,6 +13,8 @@ public class Minefield {
     public boolean gameStarted;
     public boolean gamePaused;
     public GAME_STATE gameState;
+    long totalTime;
+    long startTime;
 
     public enum GAME_STATE{GAME_WON, GAME_LOST, GAME_ONGOING}
 
@@ -24,6 +26,9 @@ public class Minefield {
         gamePaused = false;
         gameStarted = false;
         gameState = GAME_STATE.GAME_ONGOING;
+
+        totalTime = 0;
+        startTime = System.currentTimeMillis();
 
         field = new ArrayList<>();
 
@@ -157,6 +162,21 @@ public class Minefield {
         }
         gameState = GAME_STATE.GAME_ONGOING;
         gameStarted = false;
+    }
+
+    public void pause() {
+        if( gameState == GAME_STATE.GAME_ONGOING )
+        {
+            if(gamePaused) {
+                gamePaused = false;
+            }
+            else {
+                gamePaused = true;
+                long currentTime = System.currentTimeMillis();
+                totalTime = currentTime - startTime;
+                startTime = System.currentTimeMillis();
+            }
+        }
     }
 
     public void printField()
