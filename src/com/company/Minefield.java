@@ -101,8 +101,8 @@ public class Minefield {
         else if(field.get(y).get(x).isCleared() && field.get(y).get(x).getWarnings() == getNumFlags(x, y)) {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
-                    if( isInBounds(x+i, y+j) && x+i != x && y+j != y && !field.get(y+j).get(x+i).isCleared()) {
-                        clearSpace(x+i, y+j);
+                    if( IsInBounds(x+i, y+j) && !(i == 0 && j == 0) && !field.get(y+j).get(x+i).isCleared()) {
+                        ClearSpace(x+i, y+j);
                     }
                 }
             }
