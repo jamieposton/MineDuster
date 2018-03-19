@@ -78,19 +78,26 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
 
         // Rect that specifies the bounds on the cell.
         Rectangle rect = new Rectangle(colNum*cellSizeX + 1, rowNum*cellSizeY + 1, cellSizeX - 1, cellSizeY - 1);
-        if(!minefield.gamePaused){
-            if(space.isCleared()) {
-                int numWarnings = space.getWarnings();
-                g.setColor(Color.LIGHT_GRAY);
-                g.fillRect(rect.x, rect.y, rect.width, rect.height);
-                if(numWarnings != 0){
-                    // Draw numbered cell
-                    g.setColor(getNumberColor(numWarnings));
-                    drawCenteredString(g, String.valueOf(numWarnings), rect, g.getFont());
+        if(minefield.gameState == Minefield.GAME_STATE.GAME_ONGOING) {
+            if (!minefield.gamePaused) {
+                if (space.isCleared()) {
+                    int numWarnings = space.getWarnings();
+                    g.setColor(Color.LIGHT_GRAY);
+                    g.fillRect(rect.x, rect.y, rect.width, rect.height);
+                    if (numWarnings != 0) {
+                        // Draw numbered cell
+                        g.setColor(getNumberColor(numWarnings));
+                        drawCenteredString(g, String.valueOf(numWarnings), rect, g.getFont());
+                    }
+                } else if (space.isFlag()) {
+                    // Draw Flag
+                    drawImageRect(g, flagImage, rect, Color.GRAY);
                 }
-            }else if(space.isFlag()){
-                // Draw Flag
-                drawImageRect(g, flagImage, rect, Color.GRAY);
+            }
+        }else{
+            //TODO: draw explosion on mines that caused game to end.
+            if(space.isMine()){
+                drawImageRect(g, mineImage, rect, Color.BLACK);
             }
         }
     }
