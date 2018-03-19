@@ -83,7 +83,7 @@ public class Minefield {
         int totalFlags = 0;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                if( isInBounds(x+i, y+j) && x+i != x && y+j != y && field.get(y+j).get(x+i).isFlag()) {
+                if( isInBounds(x+i, y+j) && !(i == 0 && j == 0) && field.get(y+j).get(x+i).isFlag()) {
                     totalFlags++;
                 }
             }
