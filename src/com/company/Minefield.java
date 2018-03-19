@@ -156,6 +156,7 @@ public class Minefield {
                 field.get(j).get(i).setWarnings(0);
             }
         }
+        gameState = GAME_STATE.GAME_ONGOING;
         gameStarted = false;
     }
 
