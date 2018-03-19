@@ -63,12 +63,9 @@ public class MineDusterPrimaryWindow {
         ResetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                //TODO: Wait to generate minefield until the first button is clicked.
-
                 // TODO: add confirmation
                 minefield.reset();
-                //TODO: add flag to generateMines on next click
+                gameCanvas.repaint();
             }
         });
     }
