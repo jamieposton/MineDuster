@@ -11,15 +11,19 @@ import java.util.ArrayList;
 
 
 public class MineFieldCanvas extends JPanel implements MouseListener{
+    private Image flagImage;
+    private Image mineImage;
+    private Image explosionImage;
     private int numColumns, numRows;
     private int cellSizeX, cellSizeY;
-    private Image flagImage;
     public Minefield minefield;
     MineFieldCanvas(){
         super(true);
         this.addMouseListener(this);
         try {
             flagImage = ImageIO.read(new FileInputStream("res/flag.png"));
+            mineImage = ImageIO.read(new FileInputStream("res/mine.png"));
+            explosionImage = ImageIO.read(new FileInputStream("res/explosion.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,20 +76,22 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
     private void drawCell(Graphics g, FieldSpace space, int colNum, int rowNum){
         g.setFont(g.getFont().deriveFont(0.8f*cellSizeY));
 
-
+        // Rect that specifies the bounds on the cell.
         Rectangle rect = new Rectangle(colNum*cellSizeX + 1, rowNum*cellSizeY + 1, cellSizeX - 1, cellSizeY - 1);
-        if(space.isCleared()) {
-            int numWarnings = space.getWarnings();
-            g.setColor(Color.LIGHT_GRAY);
-            g.fillRect(rect.x, rect.y, rect.width, rect.height);
-            if(numWarnings != 0){
-                // Draw numbered cell
-                g.setColor(getNumberColor(numWarnings));
-                drawCenteredString(g, String.valueOf(numWarnings), rect, g.getFont());
+        if(!minefield.gamePaused){
+            if(space.isCleared()) {
+                int numWarnings = space.getWarnings();
+                g.setColor(Color.LIGHT_GRAY);
+                g.fillRect(rect.x, rect.y, rect.width, rect.height);
+                if(numWarnings != 0){
+                    // Draw numbered cell
+                    g.setColor(getNumberColor(numWarnings));
+                    drawCenteredString(g, String.valueOf(numWarnings), rect, g.getFont());
+                }
+            }else if(space.isFlag()){
+                // Draw Flag
+                drawImageRect(g, flagImage, rect, Color.GRAY);
             }
-        }else if(space.isFlag()){
-            // Draw Flag
-            drawImageRect(g, flagImage, rect, Color.GRAY);
         }
     }
 
@@ -133,10 +139,18 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
     public void mouseClicked(MouseEvent e) {
         int row = e.getY() / cellSizeY;
         int col = e.getX() / cellSizeX;
+        boolean safe;
         if(e.getButton() == MouseEvent.BUTTON1) {
-            minefield.ClearSpace(col, row);
+            if(!minefield.gameStarted){
+                minefield.generateField(col, row);
+                minefield.gameStarted = true;
+            }
+            safe = minefield.clearSpace(col, row);
+            if( !safe ){
+                System.out.println("Boom");
+            }
         } else if (e.getButton() == MouseEvent.BUTTON3) {
-            minefield.AddFlag(col, row);
+            minefield.addFlag(col, row);
         }
         repaint();
     }

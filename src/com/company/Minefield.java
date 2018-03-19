@@ -10,11 +10,16 @@ public class Minefield {
     private int numMines;
     private int height;
     private int width;
+    public boolean gameStarted;
+    public boolean gamePaused;
 
     Minefield(int number_mines, int new_height, int new_width) {
         numMines = number_mines;
         height = new_height;
         width = new_width;
+
+        gamePaused = false;
+        gameStarted = false;
 
         field = new ArrayList<>();
 
@@ -28,7 +33,7 @@ public class Minefield {
         }
     }
 
-    public void GenerateField(int initX, int initY) {
+    public void generateField(int initX, int initY) {
         int mines = 0;
         Random rand = new Random();
 
@@ -43,28 +48,28 @@ public class Minefield {
             //Check if space is not already a mine
             if(!field.get(y).get(x).isMine() && !field.get(y).get(x).isCleared()) {
                 field.get(y).get(x).setMine(true);
-                AddWarnings(x,y);
+                addWarnings(x,y);
                 mines++;
             }
         }
     }
 
-    private void AddWarnings(int x, int y) {
+    private void addWarnings(int x, int y) {
         for(int i = -1; i < 2; i++) {
             for(int j = -1; j < 2; j++) {
-                if(IsInBounds(x + i, y + j)) {
+                if(isInBounds(x + i, y + j)) {
                     field.get(y+j).get(x+i).incrementWarnings();
                 }
             }
         }
     }
 
-    private boolean IsInBounds(int x, int y) {
+    private boolean isInBounds(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
-    public boolean AddFlag(int x, int y) {
-        if( !IsInBounds(x, y) ) {
+    public boolean addFlag(int x, int y) {
+        if( !isInBounds(x, y) ) {
             return false;
         }
         else {
@@ -78,7 +83,7 @@ public class Minefield {
         int totalFlags = 0;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                if( IsInBounds(x+i, y+j) && x+i != x && y+j != y && field.get(y+j).get(x+i).isFlag()) {
+                if( isInBounds(x+i, y+j) && x+i != x && y+j != y && field.get(y+j).get(x+i).isFlag()) {
                     totalFlags++;
                 }
             }
@@ -86,8 +91,8 @@ public class Minefield {
         return totalFlags;
     }
 
-    public boolean ClearSpace(int x, int y) {
-        if(!IsInBounds(x, y)) {
+    public boolean clearSpace(int x, int y) {
+        if(!isInBounds(x, y)) {
             return true;
         }
         else if(field.get(y).get(x).isMine()) {
@@ -96,8 +101,8 @@ public class Minefield {
         else if(field.get(y).get(x).isCleared() && field.get(y).get(x).getWarnings() == getNumFlags(x, y)) {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
-                    if( IsInBounds(x+i, y+j) && x+i != x && y+j != y && !field.get(y+j).get(x+i).isCleared()) {
-                        ClearSpace(x+i, y+j);
+                    if( isInBounds(x+i, y+j) && x+i != x && y+j != y && !field.get(y+j).get(x+i).isCleared()) {
+                        clearSpace(x+i, y+j);
                     }
                 }
             }
@@ -115,7 +120,7 @@ public class Minefield {
                     for (int i = -1; i < 2; i++) {
                         for (int j = -1; j < 2; j++) {
 
-                            if (IsInBounds(currentPoint.x+i, currentPoint.y+j) && !field.get(currentPoint.y + j).get(currentPoint.x + i).isCleared()) {
+                            if (isInBounds(currentPoint.x+i, currentPoint.y+j) && !field.get(currentPoint.y + j).get(currentPoint.x + i).isCleared()) {
                                 Point addedPoint = new Point(currentPoint.x + i, currentPoint.y + j);
                                 ToCheck.push(addedPoint);
                             }
@@ -127,7 +132,7 @@ public class Minefield {
         return true;
     }
 
-    public void Reset() {
+    public void reset() {
         for( int i = 0; i < width; i++ ) {
             for( int j = 0; j < height; j++ ) {
                 field.get(j).get(i).setFlag(false);
@@ -138,7 +143,7 @@ public class Minefield {
         }
     }
 
-    public void PrintField()
+    public void printField()
     {
         char flag = 'F';
         char mine = 'M';

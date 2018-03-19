@@ -21,8 +21,6 @@ public class MineDusterPrimaryWindow {
     private Minefield minefield;
     private Properties properties;
 
-    private boolean gameStarted;
-    private boolean gamePaused;
 
     MineDusterPrimaryWindow(int num_mines, int field_height, int field_width, Dimension windowSize) {
         this.windowSize = windowSize;
@@ -31,9 +29,6 @@ public class MineDusterPrimaryWindow {
         minefield = new Minefield(num_mines, field_height, field_width);
         gameCanvas.setParams(minefield);
         gameCanvas.setSize(this.windowSize);
-
-        gamePaused = true;
-        gameStarted = false;
 
         properties = new Properties();
         try {
@@ -53,13 +48,13 @@ public class MineDusterPrimaryWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String newText;
-                if(gamePaused){
+                if(minefield.gamePaused){
                     newText = properties.getProperty("pauseButtonText");
                 }else{
                     newText = properties.getProperty("pauseButtonTextResume");
                 }
                 PauseButton.setText(newText);
-                gamePaused = !gamePaused;
+                minefield.gamePaused = !minefield.gamePaused;
 
             }
         });
@@ -72,7 +67,7 @@ public class MineDusterPrimaryWindow {
                 //TODO: Wait to generate minefield until the first button is clicked.
 
                 // TODO: add confirmation
-                minefield.Reset();
+                minefield.reset();
                 //TODO: add flag to generateMines on next click
             }
         });
