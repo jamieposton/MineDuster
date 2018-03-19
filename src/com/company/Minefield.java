@@ -74,12 +74,33 @@ public class Minefield {
         }
     }
 
+    private int getNumFlags(int x, int y) {
+        int totalFlags = 0;
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                if( IsInBounds(x+i, y+j) && x+i != x && y+j != y && field.get(y+j).get(x+i).isFlag()) {
+                    totalFlags++;
+                }
+            }
+        }
+        return totalFlags;
+    }
+
     public boolean ClearSpace(int x, int y) {
         if(!IsInBounds(x, y)) {
             return true;
         }
-        if(field.get(y).get(x).isMine()) {
+        else if(field.get(y).get(x).isMine()) {
             return false;
+        }
+        else if(field.get(y).get(x).isCleared() && field.get(y).get(x).getWarnings() == getNumFlags(x, y)) {
+            for (int i = -1; i < 2; i++) {
+                for (int j = -1; j < 2; j++) {
+                    if( IsInBounds(x+i, y+j) && x+i != x && y+j != y && !field.get(y+j).get(x+i).isCleared()) {
+                        ClearSpace(x+i, y+j);
+                    }
+                }
+            }
         }
         else {
             Point currentPoint = new Point(x, y);
@@ -102,9 +123,8 @@ public class Minefield {
                     }
                 }
             }
-
-            return true;
         }
+        return true;
     }
 
     public void Reset() {
