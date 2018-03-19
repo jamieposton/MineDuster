@@ -79,6 +79,20 @@ public class MineDusterPrimaryWindow {
         });
     }
 
+    public void updateLabels(){
+        updateMineCountLabel();
+        updateTimerLabel();
+    }
+
+    private void updateTimerLabel() {
+        String text = properties.getProperty("timerBaseLabel");
+
+    }
+
+    public void updateMineCountLabel(){
+        String text = properties.getProperty("minesBaseLabel");
+    }
+
     public JPanel getPrimaryPanel() {
         return PrimaryPanel;
     }
