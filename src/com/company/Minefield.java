@@ -168,6 +168,10 @@ public class Minefield {
                 field.get(j).get(i).setWarnings(0);
             }
         }
+        totalTime = 0;
+        totalFlags = 0;
+        startTime = System.currentTimeMillis();
+
         gameState = GAME_STATE.GAME_ONGOING;
         gameStarted = false;
     }
@@ -177,12 +181,12 @@ public class Minefield {
         {
             if(gamePaused) {
                 gamePaused = false;
+                startTime = System.currentTimeMillis();
             }
             else {
                 gamePaused = true;
                 long currentTime = System.currentTimeMillis();
-                totalTime = currentTime - startTime;
-                startTime = System.currentTimeMillis();
+                totalTime += currentTime - startTime;
             }
         }
     }
@@ -233,7 +237,12 @@ public class Minefield {
         return totalFlags;
     }
 
-    public long getTotalTime() {
-        return totalTime;
+    public long getTime() {
+        if( gamePaused ) {
+            return totalTime;
+        }
+        else {
+            return totalTime + ( System.currentTimeMillis() - startTime );
+        }
     }
 }
