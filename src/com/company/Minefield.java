@@ -11,7 +11,7 @@ public class Minefield {
     private int height;
     private int width;
 
-    Minefield(int number_mines, int new_height, int new_width, int initX, int initY) {
+    Minefield(int number_mines, int new_height, int new_width) {
         numMines = number_mines;
         height = new_height;
         width = new_width;
@@ -26,15 +26,15 @@ public class Minefield {
             }
             this.field.add(temp);
         }
-
-        field.get(initY).get(initX).setCleared(true);
-
-        GenerateMines();
     }
 
-    private void GenerateMines() {
+    public void GenerateField(int initX, int initY) {
         int mines = 0;
         Random rand = new Random();
+
+        //Initial click is cleared
+        field.get(initY).get(initX).setCleared(true);
+
         //until we've run out of mines
         while( mines < numMines) {
             //generate random space
@@ -74,12 +74,33 @@ public class Minefield {
         }
     }
 
+    private int getNumFlags(int x, int y) {
+        int totalFlags = 0;
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                if( IsInBounds(x+i, y+j) && x+i != x && y+j != y && field.get(y+j).get(x+i).isFlag()) {
+                    totalFlags++;
+                }
+            }
+        }
+        return totalFlags;
+    }
+
     public boolean ClearSpace(int x, int y) {
         if(!IsInBounds(x, y)) {
             return true;
         }
-        if(field.get(y).get(x).isMine()) {
+        else if(field.get(y).get(x).isMine()) {
             return false;
+        }
+        else if(field.get(y).get(x).isCleared() && field.get(y).get(x).getWarnings() == getNumFlags(x, y)) {
+            for (int i = -1; i < 2; i++) {
+                for (int j = -1; j < 2; j++) {
+                    if( IsInBounds(x+i, y+j) && x+i != x && y+j != y && !field.get(y+j).get(x+i).isCleared()) {
+                        ClearSpace(x+i, y+j);
+                    }
+                }
+            }
         }
         else {
             Point currentPoint = new Point(x, y);
@@ -102,12 +123,11 @@ public class Minefield {
                     }
                 }
             }
-
-            return true;
         }
+        return true;
     }
 
-    public void Reset(int initX, int initY) {
+    public void Reset() {
         for( int i = 0; i < width; i++ ) {
             for( int j = 0; j < height; j++ ) {
                 field.get(j).get(i).setFlag(false);
@@ -116,10 +136,6 @@ public class Minefield {
                 field.get(j).get(i).setWarnings(0);
             }
         }
-
-        field.get(initY).get(initX).setCleared(true);
-
-        GenerateMines();
     }
 
     public void PrintField()
