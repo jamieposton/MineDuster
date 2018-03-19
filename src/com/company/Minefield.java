@@ -122,6 +122,7 @@ public class Minefield {
     public void clearSpace(int x, int y) {
         //If the space was a mine, switch game state to lost
         if(field.get(y).get(x).isMine()) {
+            pause();
             gameState = GAME_STATE.GAME_LOST;
             return;
         }
@@ -166,6 +167,7 @@ public class Minefield {
     }
 
     //Checks to see if all the non mines are cleared or not
+    //TODO CLEAN-UP: This function is calling pause, might cause issues later.
     private GAME_STATE isWon() {
         for( int i = 0; i < width; i++ ) {
             for( int j = 0; j < height; j++) {
@@ -175,6 +177,7 @@ public class Minefield {
             }
         }
         //If everything possible is cleared, we've won
+        pause();
         return GAME_STATE.GAME_WON;
     }
 
@@ -192,6 +195,7 @@ public class Minefield {
         totalFlags = 0;
 
         gameState = GAME_STATE.GAME_ONGOING;
+        gamePaused = false;
         gameStarted = false;
     }
 
@@ -267,7 +271,7 @@ public class Minefield {
     //Getter function for the current time.
     //Has different functionality for if the game is paused or not
     public long getTime() {
-        if( gamePaused ) {
+        if( gamePaused || gameState != GAME_STATE.GAME_ONGOING) {
             return totalTime;
         }
         else {

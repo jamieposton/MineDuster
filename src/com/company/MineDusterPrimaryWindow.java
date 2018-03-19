@@ -62,7 +62,7 @@ public class MineDusterPrimaryWindow {
                     newText = properties.getProperty("pauseButtonTextResume");
                 }
                 PauseButton.setText(newText);
-                minefield.gamePaused = !minefield.gamePaused;
+                minefield.pause();
                 gameCanvas.repaint();
 
             }
@@ -87,12 +87,16 @@ public class MineDusterPrimaryWindow {
     private void updateTimerLabel() {
         String base = properties.getProperty("timerBaseLabel");
         String text = "";
-        if(minefield.gamePaused){
+        if(minefield.gamePaused && minefield.gameState == Minefield.GAME_STATE.GAME_ONGOING){
             text = "PAUSED";
         }else if(!minefield.gameStarted){
             text = base + "--:--";
         }else{
-            String timeString = "";
+            long time = minefield.getTime();
+            int seconds = (int) (time / 1000) % 60;
+            int minutes = (int) (time / (60*1000));
+
+            String timeString = String.format("%02d:%02d",minutes, seconds);
             text = base + timeString;
         }
         TimerLabel.setText(text);
