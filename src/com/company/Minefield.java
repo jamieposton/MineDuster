@@ -96,13 +96,12 @@ public class Minefield {
     }
 
     public void clearSpace(int x, int y) {
-        if(!isInBounds(x, y)) {
-            gameState = GAME_STATE.GAME_ONGOING;
-        }
-        else if(field.get(y).get(x).isMine()) {
+        if(field.get(y).get(x).isMine()) {
             gameState = GAME_STATE.GAME_LOST;
+            return;
         }
-        else if(field.get(y).get(x).isCleared() && field.get(y).get(x).getWarnings() == getNumFlags(x, y)) {
+
+        if(field.get(y).get(x).isCleared() && field.get(y).get(x).getWarnings() == getNumFlags(x, y)) {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
                     if( isInBounds(x+i, y+j) && !(i == 0 && j == 0) && !field.get(y+j).get(x+i).isCleared()) {
