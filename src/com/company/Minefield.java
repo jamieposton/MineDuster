@@ -11,7 +11,7 @@ public class Minefield {
     private int height;
     private int width;
 
-    Minefield(int number_mines, int new_height, int new_width, int initX, int initY) {
+    Minefield(int number_mines, int new_height, int new_width) {
         numMines = number_mines;
         height = new_height;
         width = new_width;
@@ -26,15 +26,15 @@ public class Minefield {
             }
             this.field.add(temp);
         }
-
-        field.get(initY).get(initX).setCleared(true);
-
-        GenerateMines();
     }
 
-    private void GenerateMines() {
+    public void GenerateField(int initX, int initY) {
         int mines = 0;
         Random rand = new Random();
+
+        //Initial click is cleared
+        field.get(initY).get(initX).setCleared(true);
+
         //until we've run out of mines
         while( mines < numMines) {
             //generate random space
@@ -107,7 +107,7 @@ public class Minefield {
         }
     }
 
-    public void Reset(int initX, int initY) {
+    public void Reset() {
         for( int i = 0; i < width; i++ ) {
             for( int j = 0; j < height; j++ ) {
                 field.get(j).get(i).setFlag(false);
@@ -116,10 +116,6 @@ public class Minefield {
                 field.get(j).get(i).setWarnings(0);
             }
         }
-
-        field.get(initY).get(initX).setCleared(true);
-
-        GenerateMines();
     }
 
     public void PrintField()
