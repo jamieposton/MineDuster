@@ -48,6 +48,7 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
         ArrayList<ArrayList<FieldSpace>> field = minefield.getField();
         ArrayList<FieldSpace> row;
         FieldSpace space;
+        System.out.println(minefield.gameState.toString());
         if(minefield != null) {
             for (int rowNum = 0; rowNum < numRows; rowNum++) {
                 for (int colNum = 0; colNum < numColumns; colNum++) {
@@ -81,14 +82,7 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
         if(minefield.gameState == Minefield.GAME_STATE.GAME_ONGOING) {
             if (!minefield.gamePaused) {
                 if (space.isCleared()) {
-                    int numWarnings = space.getWarnings();
-                    g.setColor(Color.LIGHT_GRAY);
-                    g.fillRect(rect.x, rect.y, rect.width, rect.height);
-                    if (numWarnings != 0) {
-                        // Draw numbered cell
-                        g.setColor(getNumberColor(numWarnings));
-                        drawCenteredString(g, String.valueOf(numWarnings), rect, g.getFont());
-                    }
+                    drawNumbers(g, space, rect);
                 } else if (space.isFlag()) {
                     // Draw Flag
                     drawImageRect(g, flagImage, rect, Color.GRAY);
@@ -98,7 +92,20 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
             //TODO: draw explosion on mines that caused game to end.
             if(space.isMine()){
                 drawImageRect(g, mineImage, rect, Color.BLACK);
+            }else{
+                drawNumbers(g, space, rect);
             }
+        }
+    }
+
+    private void drawNumbers(Graphics g, FieldSpace space, Rectangle rect){
+        int numWarnings = space.getWarnings();
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        if (numWarnings != 0) {
+            // Draw numbered cell
+            g.setColor(getNumberColor(numWarnings));
+            drawCenteredString(g, String.valueOf(numWarnings), rect, g.getFont());
         }
     }
 
