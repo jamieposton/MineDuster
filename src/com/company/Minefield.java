@@ -95,12 +95,12 @@ public class Minefield {
         return totalFlags;
     }
 
-    public boolean clearSpace(int x, int y) {
+    public void clearSpace(int x, int y) {
         if(!isInBounds(x, y)) {
-            return true;
+            gameState = GAME_STATE.GAME_ONGOING;
         }
         else if(field.get(y).get(x).isMine()) {
-            return false;
+            gameState = GAME_STATE.GAME_LOST;
         }
         else if(field.get(y).get(x).isCleared() && field.get(y).get(x).getWarnings() == getNumFlags(x, y)) {
             for (int i = -1; i < 2; i++) {
@@ -133,18 +133,18 @@ public class Minefield {
                 }
             }
         }
-        return true;
+        gameState = isWon();
     }
 
-    public boolean isWon() {
+    public GAME_STATE isWon() {
         for( int i = 0; i < width; i++ ) {
             for( int j = 0; j < height; j++) {
                 if( !field.get(j).get(i).isCleared() && !field.get(j).get(i).isMine() ) {
-                    return false;
+                    return GAME_STATE.GAME_ONGOING;
                 }
             }
         }
-        return true;
+        return GAME_STATE.GAME_WON;
     }
 
     public void reset() {
