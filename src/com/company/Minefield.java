@@ -181,12 +181,12 @@ public class Minefield {
         {
             if(gamePaused) {
                 gamePaused = false;
+                startTime = System.currentTimeMillis();
             }
             else {
                 gamePaused = true;
                 long currentTime = System.currentTimeMillis();
-                totalTime = currentTime - startTime;
-                startTime = System.currentTimeMillis();
+                totalTime += currentTime - startTime;
             }
         }
     }
@@ -237,7 +237,12 @@ public class Minefield {
         return totalFlags;
     }
 
-    public long getTotalTime() {
-        return totalTime;
+    public long getTime() {
+        if( gamePaused ) {
+            return totalTime;
+        }
+        else {
+            return totalTime + ( System.currentTimeMillis() - startTime );
+        }
     }
 }
