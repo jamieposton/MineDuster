@@ -55,6 +55,7 @@ public class MineDusterPrimaryWindow {
                 }
                 PauseButton.setText(newText);
                 minefield.gamePaused = !minefield.gamePaused;
+                gameCanvas.repaint();
 
             }
         });
