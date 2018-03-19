@@ -110,6 +110,7 @@ public class Minefield {
 
     public void clearSpace(int x, int y) {
         if(field.get(y).get(x).isMine()) {
+            pause();
             gameState = GAME_STATE.GAME_LOST;
             return;
         }
@@ -148,6 +149,7 @@ public class Minefield {
         gameState = isWon();
     }
 
+    //TODO CLEAN-UP: This function is calling pause, might cause issues later.
     private GAME_STATE isWon() {
         for( int i = 0; i < width; i++ ) {
             for( int j = 0; j < height; j++) {
@@ -156,6 +158,7 @@ public class Minefield {
                 }
             }
         }
+        pause();
         return GAME_STATE.GAME_WON;
     }
 
@@ -172,6 +175,7 @@ public class Minefield {
         totalFlags = 0;
 
         gameState = GAME_STATE.GAME_ONGOING;
+        gamePaused = false;
         gameStarted = false;
     }
 
@@ -237,7 +241,7 @@ public class Minefield {
     }
 
     public long getTime() {
-        if( gamePaused ) {
+        if( gamePaused || gameState != GAME_STATE.GAME_ONGOING) {
             return totalTime;
         }
         else {
