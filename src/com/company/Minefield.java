@@ -141,6 +141,7 @@ public class Minefield {
                 field.get(j).get(i).setWarnings(0);
             }
         }
+        gameStarted = false;
     }
 
     public void printField()
