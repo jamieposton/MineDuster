@@ -13,8 +13,9 @@ public class Minefield {
     public boolean gameStarted;
     public boolean gamePaused;
     public GAME_STATE gameState;
-    long totalTime;
-    long startTime;
+    private long totalTime;
+    private long startTime;
+    private int totalFlags;
 
     public enum GAME_STATE{GAME_WON, GAME_LOST, GAME_ONGOING}
 
@@ -28,6 +29,7 @@ public class Minefield {
         gameState = GAME_STATE.GAME_ONGOING;
 
         totalTime = 0;
+        totalFlags = 0;
         startTime = System.currentTimeMillis();
 
         field = new ArrayList<>();
@@ -83,6 +85,12 @@ public class Minefield {
         }
         else {
             boolean currentFlag = field.get(y).get(x).isFlag();
+            if( currentFlag ) {
+                totalFlags--;
+            }
+            else {
+                totalFlags++;
+            }
             field.get(y).get(x).setFlag(!currentFlag);
             return true;
         }
@@ -219,5 +227,13 @@ public class Minefield {
 
     public int getWidth() {
         return width;
+    }
+
+    public int getTotalFlags() {
+        return totalFlags;
+    }
+
+    public long getTotalTime() {
+        return totalTime;
     }
 }
