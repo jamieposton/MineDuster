@@ -132,6 +132,17 @@ public class Minefield {
         return true;
     }
 
+    public boolean isWon() {
+        for( int i = 0; i < width; i++ ) {
+            for( int j = 0; j < height; j++) {
+                if( !field.get(j).get(i).isCleared() && !field.get(j).get(i).isMine() ) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public void reset() {
         for( int i = 0; i < width; i++ ) {
             for( int j = 0; j < height; j++ ) {
