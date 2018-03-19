@@ -30,7 +30,6 @@ public class Minefield {
 
         totalTime = 0;
         totalFlags = 0;
-        startTime = System.currentTimeMillis();
 
         field = new ArrayList<>();
 
@@ -63,6 +62,7 @@ public class Minefield {
                 mines++;
             }
         }
+        startTime = System.currentTimeMillis();
     }
 
     private void addWarnings(int x, int y) {
@@ -170,7 +170,6 @@ public class Minefield {
         }
         totalTime = 0;
         totalFlags = 0;
-        startTime = System.currentTimeMillis();
 
         gameState = GAME_STATE.GAME_ONGOING;
         gameStarted = false;
