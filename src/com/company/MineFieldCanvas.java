@@ -139,18 +139,16 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
     public void mouseClicked(MouseEvent e) {
         int row = e.getY() / cellSizeY;
         int col = e.getX() / cellSizeX;
-        boolean safe;
-        if(e.getButton() == MouseEvent.BUTTON1) {
-            if(!minefield.gameStarted){
-                minefield.generateField(col, row);
-                minefield.gameStarted = true;
+        if(minefield.gameState == Minefield.GAME_STATE.GAME_ONGOING) {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                if (!minefield.gameStarted) {
+                    minefield.generateField(col, row);
+                    minefield.gameStarted = true;
+                }
+                minefield.clearSpace(col, row);
+            } else if (e.getButton() == MouseEvent.BUTTON3) {
+                minefield.addFlag(col, row);
             }
-            safe = minefield.clearSpace(col, row);
-            if( !safe ){
-                System.out.println("Boom");
-            }
-        } else if (e.getButton() == MouseEvent.BUTTON3) {
-            minefield.addFlag(col, row);
         }
         repaint();
     }

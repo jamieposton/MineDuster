@@ -12,6 +12,9 @@ public class Minefield {
     private int width;
     public boolean gameStarted;
     public boolean gamePaused;
+    public GAME_STATE gameState;
+
+    public enum GAME_STATE{GAME_WON, GAME_LOST, GAME_ONGOING}
 
     Minefield(int number_mines, int new_height, int new_width) {
         numMines = number_mines;
@@ -20,6 +23,7 @@ public class Minefield {
 
         gamePaused = false;
         gameStarted = false;
+        gameState = GAME_STATE.GAME_ONGOING;
 
         field = new ArrayList<>();
 
