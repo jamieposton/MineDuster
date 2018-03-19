@@ -92,7 +92,11 @@ public class MineDusterPrimaryWindow {
         }else if(!minefield.gameStarted){
             text = base + "--:--";
         }else{
-            String timeString = "";
+            long time = minefield.getTime();
+            int seconds = (int) (time / 1000) % 60;
+            int minutes = (int) (time / (60*1000));
+
+            String timeString = String.format("%02d:%02d",minutes, seconds);
             text = base + timeString;
         }
         TimerLabel.setText(text);
