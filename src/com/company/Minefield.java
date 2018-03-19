@@ -21,7 +21,7 @@ public class Minefield {
 
     //Constructor for the minefield.
     //DOES NOT generate all the mines and stuff
-    //The function generate field needs to be called seperately to make the mines and warnings.
+    //The function generate field needs to be called separately to make the mines and warnings.
     Minefield(int number_mines, int new_height, int new_width) {
         numMines = number_mines;
         height = new_height;

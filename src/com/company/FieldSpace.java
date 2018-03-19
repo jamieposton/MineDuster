@@ -34,6 +34,7 @@ public class FieldSpace {
         return cleared;
     }
 
+    //Only clears if the flag isn't there.
     public void setCleared(boolean cleared) {
         if(!isFlag()) {
             this.cleared = cleared;
@@ -44,10 +45,14 @@ public class FieldSpace {
         return warnings;
     }
 
+    //Increments warnings
+    //Helpful in generate mines
     public void incrementWarnings() {
         warnings++;
     }
 
+    //Set warnings
+    //Helpful in reset
     public void setWarnings(int newWarnings) {
         warnings = newWarnings;
     }

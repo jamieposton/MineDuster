@@ -79,7 +79,7 @@ public class MineDusterPrimaryWindow {
         });
     }
 
-    public void updateLabels(){
+    private void updateLabels(){
         updateMineCountLabel();
         updateTimerLabel();
     }
@@ -102,7 +102,7 @@ public class MineDusterPrimaryWindow {
         TimerLabel.setText(text);
     }
 
-    public void updateMineCountLabel(){
+    private void updateMineCountLabel(){
         String base = properties.getProperty("minesBaseLabel");
         int numFlagged = minefield.getTotalFlags();
         int numMines = minefield.getNumMines();

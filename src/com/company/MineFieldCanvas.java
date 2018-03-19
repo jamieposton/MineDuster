@@ -16,7 +16,7 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
     private Image explosionImage;
     private int numColumns, numRows;
     private int cellSizeX, cellSizeY;
-    public Minefield minefield;
+    private Minefield minefield;
     MineFieldCanvas(){
         super(true);
         this.addMouseListener(this);
@@ -136,7 +136,7 @@ public class MineFieldCanvas extends JPanel implements MouseListener{
         }
     }
 
-    public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
+    private void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
         // Get the FontMetrics
         FontMetrics metrics = g.getFontMetrics(font);
         // Determine the X coordinate for the text
